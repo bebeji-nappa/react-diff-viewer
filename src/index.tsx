@@ -267,7 +267,6 @@ class DiffViewer extends React.Component<
 				)}
 				<td
 					className={cn(this.styles.marker, {
-						// [this.styles.emptyLine]: !content,
 						[this.styles.diffAdded]: added,
 						[this.styles.diffRemoved]: removed,
 						[this.styles.highlightedLine]: highlightLine,
@@ -279,7 +278,6 @@ class DiffViewer extends React.Component<
 				</td>
 				<td
 					className={cn(this.styles.content, {
-						// [this.styles.emptyLine]: !content,
 						[this.styles.diffAdded]: added,
 						[this.styles.diffRemoved]: removed,
 						[this.styles.highlightedLine]: highlightLine,
