@@ -56,15 +56,15 @@ export interface JsDiffChangeObject {
  */
 const constructLines = (value: string): string[] => {
 	const lines = value.split('\n');
-	const isAllEmpty = lines.every((val): boolean => !val);
-	if (isAllEmpty) {
-		// This is to avoid added an extra new line in the UI.
-		if (lines.length === 2) {
-			return [];
-		}
-		lines.pop();
-		return lines;
-	}
+	// const isAllEmpty = lines.every((val): boolean => !val);
+	// if (isAllEmpty) {
+	// 	// This is to avoid added an extra new line in the UI.
+	// 	if (lines.length === 2) {
+	// 		return [];
+	// 	}
+	// 	lines.pop();
+	// 	return lines;
+	// }
 
 	const lastLine = lines[lines.length - 1];
 	const firstLine = lines[0];
