@@ -583,11 +583,12 @@ class DiffViewer extends React.Component<
 				})}>
 				<tbody>
 					{title}
-					<Virtuoso
+					{/* <Virtuoso
 						style={{ height: '400px' }}
 						totalCount={nodes.length}
 						itemContent={index => nodes[index]}
-					/>
+					/> */}
+					{nodes}
 				</tbody>
 			</table>
 		);
