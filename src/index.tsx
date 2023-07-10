@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
+import { Virtuoso } from 'react-virtuoso'
 
 import {
 	computeLineInformation,
@@ -44,13 +45,13 @@ export interface ReactDiffViewerProps {
 	// Show only diff between the two values.
 	showDiffOnly?: boolean;
 	// Render prop to format final string before displaying them in the UI.
-	renderContent?: (source: string) => JSX.Element;
+	renderContent?: (source: string) => React.ReactNode;
 	// Render prop to format code fold message.
 	codeFoldMessageRenderer?: (
 		totalFoldedLines: number,
 		leftStartLineNumber: number,
 		rightStartLineNumber: number,
-	) => JSX.Element;
+	) => React.ReactNode;
 	// Event handler for line number click.
 	onLineNumberClick?: (
 		lineId: string,
@@ -63,9 +64,9 @@ export interface ReactDiffViewerProps {
 	// Use dark theme.
 	useDarkTheme?: boolean;
 	// Title for left column
-	leftTitle?: string | JSX.Element;
+	leftTitle?: string | React.ReactNode;
 	// Title for left column
-	rightTitle?: string | JSX.Element;
+	rightTitle?: string | React.ReactNode;
 }
 
 export interface ReactDiffViewerState {
@@ -179,10 +180,10 @@ class DiffViewer extends React.Component<
 	 */
 	private renderWordDiff = (
 		diffArray: DiffInformation[],
-		renderer?: (chunk: string) => JSX.Element,
-	): JSX.Element[] => {
+		renderer?: (chunk: string) => React.ReactNode,
+	): React.ReactNode[] => {
 		return diffArray.map(
-			(wordDiff, i): JSX.Element => {
+			(wordDiff, i) => {
 				return (
 					<span
 						key={i}
@@ -190,7 +191,7 @@ class DiffViewer extends React.Component<
 							[this.styles.wordAdded]: wordDiff.type === DiffType.ADDED,
 							[this.styles.wordRemoved]: wordDiff.type === DiffType.REMOVED,
 						})}>
-						{renderer ? renderer(wordDiff.value as string) : wordDiff.value}
+						<>{renderer ? renderer(wordDiff.value as string) : wordDiff.value}</>
 					</span>
 				);
 			},
@@ -217,7 +218,7 @@ class DiffViewer extends React.Component<
 		value: string | DiffInformation[],
 		additionalLineNumber?: number,
 		additionalPrefix?: LineNumberPrefix,
-	): JSX.Element => {
+	): React.ReactNode => {
 		const lineNumberTemplate = `${prefix}-${lineNumber}`;
 		const additionalLineNumberTemplate = `${additionalPrefix}-${additionalLineNumber}`;
 		const highlightLine =
@@ -299,7 +300,7 @@ class DiffViewer extends React.Component<
 	private renderSplitView = (
 		{ left, right }: LineInformation,
 		index: number,
-	): JSX.Element => {
+	): React.ReactNode => {
 		return (
 			<tr key={index} className={this.styles.line}>
 				{this.renderLine(
@@ -329,7 +330,7 @@ class DiffViewer extends React.Component<
 	public renderInlineView = (
 		{ left, right }: LineInformation,
 		index: number,
-	): JSX.Element => {
+	): React.ReactNode => {
 		let content;
 		if (left.type === DiffType.REMOVED && right.type === DiffType.ADDED) {
 			return (
@@ -413,7 +414,7 @@ class DiffViewer extends React.Component<
 		blockNumber: number,
 		leftBlockLineNumber: number,
 		rightBlockLineNumber: number,
-	): JSX.Element => {
+	): React.ReactNode => {
 		const { hideLineNumbers, splitView } = this.props;
 		const message = this.props.codeFoldMessageRenderer ? (
 			this.props.codeFoldMessageRenderer(
@@ -465,7 +466,7 @@ class DiffViewer extends React.Component<
 	/**
 	 * Generates the entire diff view.
 	 */
-	private renderDiff = (): JSX.Element[] => {
+	private renderDiff = (): React.ReactNode[] => {
 		const {
 			oldValue,
 			newValue,
@@ -487,7 +488,7 @@ class DiffViewer extends React.Component<
 				: this.props.extraLinesSurroundingDiff;
 		let skippedLines: number[] = [];
 		return lineInformation.map(
-			(line: LineInformation, i: number): JSX.Element => {
+			(line: LineInformation, i: number): React.ReactNode => {
 				const diffBlockStart = diffLines[0];
 				const currentPosition = diffBlockStart - i;
 				if (this.props.showDiffOnly) {
@@ -538,7 +539,7 @@ class DiffViewer extends React.Component<
 		);
 	};
 
-	public render = (): JSX.Element => {
+	public render = (): React.ReactNode => {
 		const {
 			oldValue,
 			newValue,
@@ -580,7 +581,11 @@ class DiffViewer extends React.Component<
 				})}>
 				<tbody>
 					{title}
-					{nodes}
+					<Virtuoso
+						style={{ height: '400px' }}
+						totalCount={nodes.length}
+						itemContent={index => nodes[index]}
+					/>
 				</tbody>
 			</table>
 		);

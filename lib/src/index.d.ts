@@ -16,14 +16,14 @@ export interface ReactDiffViewerProps {
     extraLinesSurroundingDiff?: number;
     hideLineNumbers?: boolean;
     showDiffOnly?: boolean;
-    renderContent?: (source: string) => React.ReactNode;
-    codeFoldMessageRenderer?: (totalFoldedLines: number, leftStartLineNumber: number, rightStartLineNumber: number) => React.ReactNode;
+    renderContent?: (source: string) => JSX.Element;
+    codeFoldMessageRenderer?: (totalFoldedLines: number, leftStartLineNumber: number, rightStartLineNumber: number) => JSX.Element;
     onLineNumberClick?: (lineId: string, event: React.MouseEvent<HTMLTableCellElement>) => void;
     highlightLines?: string[];
     styles?: ReactDiffViewerStylesOverride;
     useDarkTheme?: boolean;
-    leftTitle?: string | React.ReactNode;
-    rightTitle?: string | React.ReactNode;
+    leftTitle?: string | JSX.Element;
+    rightTitle?: string | JSX.Element;
 }
 export interface ReactDiffViewerState {
     expandedBlocks?: number[];
@@ -111,7 +111,7 @@ declare class DiffViewer extends React.Component<ReactDiffViewerProps, ReactDiff
      * @param obj.right Life diff information for the removed section of the inline view.
      * @param index React key for the lines.
      */
-    renderInlineView: ({ left, right }: LineInformation, index: number) => React.ReactNode;
+    renderInlineView: ({ left, right }: LineInformation, index: number) => JSX.Element;
     /**
      * Returns a function with clicked block number in the closure.
      *
@@ -132,7 +132,7 @@ declare class DiffViewer extends React.Component<ReactDiffViewerProps, ReactDiff
      * Generates the entire diff view.
      */
     private renderDiff;
-    render: () => React.ReactNode;
+    render: () => JSX.Element;
 }
 export default DiffViewer;
 export { ReactDiffViewerStylesOverride, DiffMethod };
