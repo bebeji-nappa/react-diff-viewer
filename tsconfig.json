@@ -16,5 +16,5 @@
     "strict": false
   },
   "include": ["./src/*", "enzyme.js"],
-  "exclude": ["/node_modules"],
+  "exclude": ["node_modules"],
 }
