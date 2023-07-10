@@ -574,8 +574,6 @@ class DiffViewer extends React.Component<
 			</tr>
 		);
 
-		console.log(nodes)
-
 		return (
 			<table
 				className={cn(this.styles.diffContainer, {
