@@ -555,7 +555,7 @@ class DiffViewer extends React.Component<
 		}
 
 		this.styles = this.computeStyles(this.props.styles, useDarkTheme);
-		const nodes = this.renderDiff();
+		const nodes = this.renderDiff().filter(v => v !== null && v);
 		const colSpanOnSplitView = hideLineNumbers ? 2 : 3;
 		const colSpanOnInlineView = hideLineNumbers ? 2 : 4;
 
@@ -583,12 +583,11 @@ class DiffViewer extends React.Component<
 				})}>
 				<tbody>
 					{title}
-					{/* <Virtuoso
+					<Virtuoso
 						style={{ height: '400px' }}
 						totalCount={nodes.length}
 						itemContent={index => nodes[index]}
-					/> */}
-					{nodes}
+					/>
 				</tbody>
 			</table>
 		);
